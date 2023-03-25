@@ -32,10 +32,38 @@ function Home(props) {
     const handleCard=(i)=>{
         navigate("/card", {state:[arr[i]]})
     }
+
+    const handleSearch = (e)=>{
+        let id = e.target.value
+        if(id){
+        fetch(`https://clean-headscarf-calf.cyclic.app/v1/post/${id}`, {
+            method:"get",
+            headers: {
+                "Authorization":token
+                }
+            
+        }).then((res)=>res.json())
+        .then((data)=>{
+            if(data.length) setArr(data)
+            else{
+                handleData()
+            }
+        }).catch((e)=>{
+            console.log(e)
+        })
+    }
+    else{
+        handleData()
+    }
+    }
     return (
         <>
         <Nav handleData={handleData}/>
+        
             <div className='home-container'>
+            <div className='search'>
+                <input type="text" placeholder='Search by title'/>
+            </div>
                 {
                     arr.map((val, i)=>{
                         let times = val.createdAt.split("T")

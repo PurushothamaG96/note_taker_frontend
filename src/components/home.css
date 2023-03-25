@@ -37,3 +37,13 @@ nav ul li, .links{
     padding: 0.5rem 1rem;
     cursor: pointer;
 }
+.search{
+    width: 100%;
+    margin: 1rem;
+}
+.search input{
+    width: 70%;
+    height: 2rem;
+    border-radius: 1rem;
+    padding:0px 1rem ;
+}
