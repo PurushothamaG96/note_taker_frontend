@@ -35,4 +35,5 @@ nav ul li, .links{
     max-width: 800px;
     background-color: aliceblue;
     padding: 0.5rem 1rem;
+    cursor: pointer;
 }

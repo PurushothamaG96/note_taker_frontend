@@ -1,48 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Nav from './Nav';
-import "./home.css"
-import { useNavigate } from 'react-router-dom';
-function Home(props) {
-    const [arr, setArr] = useState([])
-    const navigate = useNavigate()
-    const token=JSON.parse(localStorage.getItem("notToken"))
-    let month = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"]
-    useEffect(()=>{
-        handleData()
-    }, [])
 
-    function handleData(){
-        if(!token){
-           return navigate("/") 
-        }
-        fetch("https://clean-headscarf-calf.cyclic.app/v1/post", {
-            method:"get",
+function Card(props) {
+    const location = useLocation()
+    const navigate = useNavigate()
+    let month = ["Jan", "Feb", "March", "April", "May", "June", "July", "August", "Sept", "Oct", "Nov", "Dec"]
+    const token = JSON.parse(localStorage.getItem("notToken"))
+    const handleCardDelete =(id)=>{
+        fetch(`https://clean-headscarf-calf.cyclic.app/v1/post/${id}`, {
+            method:"delete",
             headers: {
                 "Authorization":token
                 }
             
         }).then((res)=>res.json())
         .then((data)=>{
-            setArr(data)
+           alert("Data Success fully deleted")
+           navigate("/home")
         }).catch((e)=>{
             console.log(e)
         })
     }
-
-    const handleCard=(i)=>{
-        navigate("/card", {state:[arr[i]]})
-    }
     return (
-        <>
-        <Nav handleData={handleData}/>
-            <div className='home-container'>
-                {
-                    arr.map((val, i)=>{
+        <div>
+            <Nav/>
+            <div className='card'>
+            {
+                    location.state.map((val, i)=>{
                         let times = val.createdAt.split("T")
                         let m = parseInt(times[0].split("-")[1])
                         console.log(m)
                         return(
-                            <div key={i} className='cards' onClick={()=>handleCard(i)}>
+                            <div key={i} className='cards'>
                                 <div className='time'>
                                     <p >
                                     <span style={{marginRight:"10px",fontWeight:700}}>{month[m-1]}</span>
@@ -52,14 +42,17 @@ function Home(props) {
                                 </div>
                                 <h1>{val.title}</h1>
                                 <p>{val.description}</p>
+                                <button onClick={()=>{handleCardDelete(val._id)}}>Delete</button> <button>Update</button>
                             </div>
+                            
                         )
                     })
                 }
+
             </div>
-        </>
-        
+           
+        </div>
     );
 }
 
-export default Home;
+export default Card;
