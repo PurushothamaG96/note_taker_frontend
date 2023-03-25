@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./sign.css"
-import axios from "axios"
+
 function Signup(props) {
     const [form, setForm] = useState({email:"", password:""})
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -12,9 +12,14 @@ function Signup(props) {
             return alert("password and confirm password must be matched")
         }
         else{
-            axios.post("http://localhost:5000/v1/register", {
-                body:form
-            })
+           fetch("http://localhost:5000/v1/register", {
+            method:"post",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+                },
+            body:JSON.stringify(form)
+           })
         }
     }
     return (
