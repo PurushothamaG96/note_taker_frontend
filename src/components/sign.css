@@ -12,14 +12,14 @@
     align-items: center;
 }
 
-form{
+.container form{
     width: 400px;
     min-height: 60%;
     background-color: white;
     border-radius:1rem;
     padding: 1rem; 
 }
-form>h1{
+.container form>h1{
     text-align: center;
 }
 .form-inputs{
