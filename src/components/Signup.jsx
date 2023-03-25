@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import "./sign.css"
-
+import {Link, useNavigate} from "react-router-dom"
 function Signup(props) {
+    const navigate = useNavigate()
     const [form, setForm] = useState({email:"", password:""})
     const [confirmPassword, setConfirmPassword] = useState("")
     const [rem, setRem] = useState("off")
@@ -12,13 +13,20 @@ function Signup(props) {
             return alert("password and confirm password must be matched")
         }
         else{
-           fetch("http://localhost:5000/v1/register", {
+           fetch("https://clean-headscarf-calf.cyclic.app/v1/register", {
             method:"post",
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
                 },
             body:JSON.stringify(form)
+           }).then((res)=>{
+            return res.json()
+           }).then(jdata=>{
+            alert(jdata.message)
+            navigate("/")
+           }).catch((e)=>{
+            console.log(e)
            })
         }
     }
@@ -46,7 +54,7 @@ function Signup(props) {
                     <button >Submit</button>
                 </div>
                 <div className='forgot'>
-                    <p>Forgot<span style={{color:"blue"}}>password?</span></p>
+                    <Link to={"/"}>Go TO Sign IN</Link>
                 </div>
             </form>
         </div>
